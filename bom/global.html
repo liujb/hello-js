@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>New Web Project</title>
+	</head>
+	<body>
+		<h1>内置对象之Golbal</h1>
+		<P>
+			理解Golbal对象：<br />
+			①最特别的对象，不管你从什么角度，这个对象都是不存在的，因为其不属于任何其他对象的属性和方法，最终都是它的对象和方法。<br />
+			②事实上，没有全局变量或者函数，所有在全局作用一种定义的属性和函数都是Global对象的属性。<br />
+			③诸如isNaN(),isFinite(),parseInt(),parseFloat()都是Global对象的方法。<br />
+		</P>
+		<br />
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				/*
+				 * ①encodeURI()和encodeURIComponent()可以对URI进行编码，以便发送给浏览器。
+				 * 它们用特殊的UTF-8编码替换所有无效的字符，从而让浏览器可以接受和理解
+				 * ②encodeURI()主要用于“整个URI”而encodeURIComponent()主要用于“URI中的某一段”
+				 * ③encodeURI()不会对本身属于URI的特殊字符进行编码比如，冒号、正斜杠、问号和井号
+				 * 而encodeURIComponent()会对所有非标准字符进行编码
+				 * ④一般说来我们使用encodeURIComponent()比encodeURI()多，因为实践中我们一般只需要对查询字符串进行编码
+				 */
+				var uri = 'http://www.worx.com/value/illegal value.html#select';
+				var allCode = encodeURI(uri);
+				var componentCode = encodeURIComponent(uri);
+				//alert(allCode);
+				//alert(componentCode);
+				//alert(decodeURI(allCode));
+				//alert(decodeURIComponent(componentCode));
+				
+				/*
+				 * eval()方法就像一个ECMAScript解析器
+				 * ①只接受一个参数，被执行的代码具有与该行相同的作用域
+				 * ②能够解析字符串的能力非常强，同时也非常危险，在使用eval()应谨慎
+				 * 特别是在有用户输入数据的情况下，可能会有恶意用户输入威胁你的站点或者应用程序安全的代码（即代码注入）
+				 */
+				var msg = 'fuck you!';
+				eval('alert(msg)');
+				
+				eval('function alertMsg(msg){alert(msg)};');
+				alertMsg('ddddd');
+				
+				/*
+				 * ECMAScript虽然没有指出如何直接访问Global对象，
+				 * 但是在web浏览器中都是将这个全局对象作为window对象的一部分加以实现
+				 * 因此在全局作用域中声明的所有变量和函数都成了window对象的属性
+				 * window对象除了扮演Global的角色以外还承担了很多别的任务
+				 */
+			};
+		</script>
+		<p>Global对象的所有属性<br /></p>
+		<table style="color:blue; border-style: solid">
+			<tr><td>属性</td><td>说明</td></tr>
+			<tr><td>undefined</td><td>特殊值undefined</td></tr>
+			<tr><td>NaN</td><td>特殊值NaN</td></tr>
+			<tr><td>Infinity</td><td>特殊值Infinity</td></tr>
+			<tr><td>Object</td><td>构造函数Object</td></tr>
+			<tr><td>Array</td><td>构造函数Array</td></tr>
+			<tr><td>Function</td><td>构造函数Function</td></tr>
+			<tr><td>Boolean</td><td>构造函数Boolean</td></tr>
+			<tr><td>String</td><td>构造函数String</td></tr>
+			<tr><td>Number</td><td>构造函数Number</td></tr>
+			<tr><td>Date</td><td>构造函数Date</td></tr>
+			<tr><td>RegExp</td><td>构造函数RegExp</td></tr>
+			<tr><td>Error</td><td>构造函数Error</td></tr>
+			<tr><td>EvalError</td><td>构造函数EvalError</td></tr>
+			<tr><td>RangeError</td><td>构造函数RangeError</td></tr>
+			<tr><td>ReferenceError</td><td>构造函数ReferenceError</td></tr>
+			<tr><td>SyntaxError</td><td>构造函数SyntaxError</td></tr>
+			<tr><td>TypeError</td><td>构造函数TypeError</td></tr>
+			<tr><td>URIError</td><td>构造函数URIError</td></tr>
+		</table>
+	</body>
+</html>
+

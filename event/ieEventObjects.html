@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+    	<h1></h1>
+        <input type='button' id='btn_test' value='Test ' /> 
+       	<script type="text/javascript">
+    		window.onload=function() {
+                //
+                // IE 6,7,8 中的event对象根据指定事件处理程序的方法而不同 （IE9跟其他浏览器一样）
+                // DOM0级方法添加事件处理程序时，event对象作为window对象的属性存在 window.event
+                var btn_test=document.getElementById('btn_test');
+                btn_test.onclick=function(event){
+                    //alert(event); //IE6中 这就是undefined
+                    event = window.event;
+                    alert(event.type);//IE6 弹出click
+                };
+            }
+    	</script>
+    </body>
+</html>

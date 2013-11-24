@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+    	<h1></h1>
+       	<script type="text/javascript">
+    		window.onload=function() {
+                // 1:children属性，IE率先引入出现，作为HTMLCollection，children属性只包含元素的子节点中那些也是元素的节点
+                // 换句话说，在元素的子节点都是元素的情况下， children属性与childNodes是相同的。
+                // 除了FF外，所有浏览器都支持children，IE中的children会包含注释节点
+
+
+                // 2:contains()方法，IE率先引入
+                // 如果传入的节点是当前节点的后代，那么方法返回true
+                console.log(document.documentElement.contains(document.body));//true
+                // FF中不支持contains() 但是在DOM3级中实现了一个替代的compareDocumentPosition()的方法
+                // 该方法返回一个位掩码，以表示两个节点之间的位置关系，1：无关，2：居前，4：居后，8：包含（给定节点是参考节点的祖先），
+                // 16：被包含(给定节点是参考节点的后代)
+                
+                //console.log(document.documentElement.compareDocumentPosition(document.body));
+
+
+                // 3：操作内容
+                // innerText,innerHTML,outerText,outHTML
+                // 注意在 innerHTML中写入<script>或者<style>元素时的安全问题，只有IE支持 ，且需要使用特定的作用域内元素
+                // 如 div.innerHTML = '_<script defer>alert("hi");</scr'+'ipt>';
+                // 注意不要频繁操作 innerHTML 和 outerHTML
+
+
+                // 4：动态脚本
+                function loadScript(url){
+                    var script = document.createElement('script');
+                    script.type='text/javascript';
+                    script.src=url;
+                    document.body.appendChild(script);//当代码执行到此时，开始下载js文件，但是怎么样才能知道js是否已经下载完成呢？？？
+                }
+
+                //动态脚本，此方法加载的js代码会在全局作用域中执行，这样执行代码与在全局作用域中将字符串传给eval()是一个样
+                function loadScriptString(code){
+                    var script = document.createElement('script');
+                    script.type='text/javascript';
+                    try{
+                        script.appendChild(document.createTextNode(code)); // IE 不兼容此句
+                    } catch(ex){
+                        script.text=code;
+                    }
+                    document.body.appendChild(script);
+                }
+
+
+                // 5: 动态样式 跟动态脚本如出一辙
+                function loadStyles(url){
+                    var style=document.createElement('link');
+                    style.type='text/css';
+                    style.rel='stylesheet';
+                    style.href=url;
+                    document.body.appendChild(style);
+                }
+
+                function loadStyleString(code){
+
+                    var style = document.createElement('link');
+                    style.type='text/css';
+                    style.rel='stylesheet';
+                    try{
+                        style.appendChild(document.createTextNode(code)); // IE 不兼容此句
+                    } catch(ex){
+                        style.styleSheet.cssText=code; //兼容IE
+                    }
+                    var head = document.getElementByTagName('head')[0];
+                    head.appendChild(style);
+                }
+
+            }
+    	</script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>window对象</title>
+    </head>
+    <body>
+    	<h1>window对象</h1>
+        
+    	<script type="text/javascript">
+    		window.onload=function(){};
+
+            //BOM的核心对象是window，他表示一个浏览器的实例window对象有双重角色，既是通过js访问浏览器的一个接口
+            //又是ECMAScript规定的Global对象
+            var age=10;
+            function getAge(age){
+                console.log(this.age);//由于getAge()存在于全局作用域中，所以this.age指向window.age;
+            };
+            console.log(window.age);
+            getAge(10);
+            window.getAge();
+    		
+
+            //窗口关系及框架：
+            //如果页面中包含框架，则每个框架都拥有自己的window对象，并且保存在fames集合中，
+            //所以可以通过window.frames[index]或者window.frames['name'],不过最好使用top.frames[index]或者top/frames['name']
+            //注意top跟parent，在没有框架的情况下 top一定等于parent（此时他们都等于window）
+            //最后一个属性时self，它始终指向window
+            //所有的这些对象都是window的属性可以通过window.top，window.parent进行访问。
+    	</script>
+    </body>
+</html>

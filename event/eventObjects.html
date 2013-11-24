@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+    	<h1></h1>
+        <input type='button' id='btn_test' value=' Test ' />
+        <a href='http://www.baidu.com' id='lnk_GoToBaiDu'>转到百度</a>
+        <input type='button' id='btn_testEventType' value='Test event type ' />
+       	<script type="text/javascript">
+    		window.onload=function() {
+                var btn_test=document.getElementById('btn_test');
+                btn_test.addEventListener('click',function(event){
+
+                    event.preventDefault();//阻止特定事件的默认行为，button没有特定的默认事件
+
+                    console.log(this===btn_test);//
+                    console.log(event.currentTarget);//当前正在处理事件的那个元素，总是等于this
+                    console.log(event.currentTarget===this);//true
+                    console.log(event.target);//只读
+                    console.log(event.target===this);//true
+
+                    console.log(event.type);// click
+                    console.log(event.view); 
+                    console.log(event.eventPhase);//2 //调用事件的处理程序的阶段 1：捕获阶段 2：处于目标阶段 3：冒泡阶段
+                    console.log(event.detail); //1 //事件相关的细节信息 返回Integer类型
+                    console.log(event.cancelable); //是否可以取消事件的默认行为，如果为true，则可以使用preventDefault()方法
+                    console.log(event.bubbles);//true 表明事件是否冒泡，如果为ture，则可以使用stopPropagation()方法
+                    
+                    //event.stopPropagation();// 不会冒泡到body的click事件了
+
+                },false);
+
+                //单击页面上的button，如果不阻止其冒泡，则会触发此事件处理方法
+                document.body.onclick=function(event){
+                    alert(event.currentTarget===document.body); //true
+                    alert(this===document.body); //true
+                    alert(this===document.getElementById('btn_test')); //false
+                    alert(event.target===document.getElementById('btn_test')); //true
+                };
+                //总结：无论什么时候 this===event.currentTarget 而 event.target===特定的元素 
+
+                //阻止<a>标签的特定行为，阻止其转到href的地址栏
+                var lnk_GoToBaiDu=document.getElementById('lnk_GoToBaiDu');
+                lnk_GoToBaiDu.onclick=function(event){
+                    if(event.cancelable){
+                        event.preventDefault();//只有在cancelable为true时，此方法才有效
+                    }
+                    if(event.bubbles){
+                        event.stopPropagation();// 不会冒泡到body的click事件了
+                    }
+                };
+
+                //测试一下event的 type属性
+                var btn_testEventType=document.getElementById('btn_testEventType');
+                var handler=function(event){
+                    switch(event.type){
+                        case 'click':
+                            alert('clicked me');
+                            if(event.bubbles){
+                                event.stopPropagation();
+                            }
+                            break;
+                        case 'mouseover':
+                            event.target.style.background='red';
+                            break;
+                        case 'mouseout':
+                            event.target.style.background='';
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                btn_testEventType.onclick=handler;
+                btn_testEventType.onmouseover=handler;
+                btn_testEventType.onmouseout=handler;
+                
+            }
+    	</script>
+    </body>
+</html>

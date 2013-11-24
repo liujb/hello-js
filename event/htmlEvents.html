@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+    	<h1></h1>
+        <script type="text/javascript" src='EventUtil.js'></script>
+       	<script type="text/javascript">
+    		window.onload=function() {
+                //var xx=[,,];
+                //console.log(xx.length);//IE6,7,8下length为2 且都为undefined 而IE9以及其他浏览器都是两个 为undefined
+
+                //
+                // HTML 事件指的是那些不一定与用于操作有关的事件，在DOM规范出来之前就已经存在了
+                // 常见的HTML事件有：load unload abort error select change submit reset resize scroll focus blur
+                // 想要检测浏览器是否支持DOM规定的HTML事件可以使用
+                // var isSuperted = docuemnt.implementation.hasFeature('HTMLEvents','2.0');
+                //
+
+
+                //
+                // ① load 事件 当页面完全加载（即document、images、css、js） 时 会在window对象上触发
+                // img 或者 其他潜入页面的<object> 资源上也可以触发 load事件
+                // 定义方式：window.onload=function(event){};或者 EventUtil.add(window,'load',function(event){  });
+                // 或者为<body>添加onload特性
+                // 一般来讲任何window上面发生的事件都可以在<body>上面通过特性来指定
+                var img = document.createElement('img');
+                EventUtil.addHandler(img,'load',function(event){
+                    event=EventUtil.getEvent(event);
+                    console.log(EventUtil.getTarget(event).src);
+                });
+                document.body.appendChild(img);
+                img.src='sample.jpg';//新图像元素不一定要从添加到文档后才开始下载，只要设置了src属性就会开始下载
+
+                // <script>元素也可以发生load事件 IE6,7,8除外。
+                // <link> 元素也是一样可以触发 load事件
+                var script=document.createElement('script');
+                EventUtil.addHandler(script,'load',function(event){
+                    event=EventUtil.getEvent(event);
+                    console.log(EventUtil.getTarget(event).src);
+                });
+                script.src='EventUtil.js';
+                document.body.appendChild(script);
+
+                var link=document.createElement('link');
+                link.type='text/css';
+                link.rel='stylesheet';
+                EventUtil.addHandler(link,'load',function(event){
+                    console.log(EventUtil.getTarget(EventUtil.getEvent(event)).href);
+                });
+                link.href='style.css';
+                document.getElementsByTagName('head')[0].appendChild(link);
+            };
+
+
+            // ②从一个页面切换到另一个页面就会触发unload事件，该事件的最大的作用就是清除引用以避免内存泄露
+            //event只包含一个属性target 值为document 而ie则包含srcElement
+            //window.onunload=function(event){
+                //alert('unloaded');
+            //};
+
+            //DOM2规范应该是在body上面触发unload事件，但是所有浏览器都在window上实现了unload事件
+            //document.body.onunload=function(event){
+                //alert('unload');
+            //};
+
+            //
+            // ③ resize 事件浏览器窗口被调整到一个新的高度或者宽度时触发
+            // 传入的event会有一个target属性（值为document） 但是IE未提供任何属性
+            // 会被重复触发 除了FF FF会在停止调整时触发该事件
+            // 
+            window.onresize=function(event){
+                console.log('resized');
+                console.log(EventUtil.getEvent(event).target);
+            };
+
+            //
+            // ④ scroll事件也是发生在window对象上
+            // 在混杂模式下 可以通过<body> 元素的scrollLeft和scrollTop来控制这一变化
+            // 在标准模式下 除了Safari外 所有浏览器都会通过<html>来反应这一变化
+            // 与resize事件一样 也会被重复执行
+            window.onscroll=function(event){
+                if(document.compatMode=='CSS1Compact'){
+                    console.log(document.documentElement.scrollTop);
+                    console.log(document.documentElement.scrollLeft);
+                    console.log(typeof document.documentElement.scrollTop);
+                }else{
+                    console.log(document.body.scrollTop);
+                    console.log(document.body.scrollLeft);
+                    console.log(typeof document.body.scrollTop);
+                }
+            };
+    	</script>
+    </body>
+</html>

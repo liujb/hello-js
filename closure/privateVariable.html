@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>JS里面的私有变量</title>
+    </head>
+    <body>
+        <h1>JS里面的私有变量</h1>
+        <script type="text/javascript">
+            window.onload=function(){
+                //js没有私有成员的概念，所有对象属性都是公有的.
+                //但是却有一个私有变量的概念，任何在函数中定义的变量都可以认为是私有的
+                
+                //①我们把有权访问私有变量和私有函数的公共方法称为特权方法（Privileged Method）
+                //创建特权方法有两种方式①在构造函数中定义特权方法
+                function MyObject(){
+                    var privateVariable=10;
+                    function privateMethod(){
+                        return false;
+                    };
+                    this.publicMethod=function(){//特权方法作为闭包有权访问在构造函数中定义的所有变量和函数
+                        privateVariable++;
+                        return privateMethod();
+                    };
+                };
+                
+                var obj = new MyObject();
+                //alert(obj.privateVairiable);//undefined
+                
+                function Person(name){
+                    this.getName=function(){//特权方法  可以在构造函数外部使用，而且有权访问私有变量name，因为他们作为闭包通过作用域链有权访问name
+                        return name;
+                    };
+                    this.setName=function(value){
+                        name=value;
+                    };
+                };
+                
+                var person=new Person('ALLEN');
+                //alert(person.getName());
+                //person.setName("ALLE3");
+                //alert(person.getName());
+                /*
+                 * PS:在构造函数中定义特权方法有一个缺点，那就是你必须使用构造函数模式来达到这个目的，而构造函数模式的缺点就是针对每一个实例都会创建同样一组新方法
+                 */
+                
+            };
+        </script>
+    </body>
+</html>
+

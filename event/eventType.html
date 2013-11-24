@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>介绍事件 以及鼠标事件</title>
+    </head>
+    <body>
+    	<h1></h1>
+        <input type='button' id='btn_test' value='Test' />
+        <input type='button' id='btn_test_mousedown' value='Test mousedown' />
+        <script type="text/javascript" src='EventUtil.js'></script>
+       	<script type="text/javascript">
+    		window.onload=function() {
+                //
+                //DOM2级事件主要分为5种事件
+                //① UI事件 ② 鼠标事件 ③ 键盘事件 ④ HTML事件（浏览器窗口发生变化或者特定的客户端/服务端交互时发生）
+                //⑤ 变动事件（底层DOM结构发生变化时触发）
+                //
+
+                //
+                // UI事件主要分为UIActive（表示元素通过用户鼠标或者键盘激活）、DOMFocusIn（元素获得焦点，HTML元素的focus的普通版）、DOMfocusOut（元素失去焦点，HTML元素blur事件的普通版）事件
+                //
+
+                //
+                //鼠标事件分为7种 click、dbclick、mousedown、mouseup、mouseover、mouseout、mousemove
+                // 其中click可以被回车键激活外，其余都不能被键盘激活
+                // 事件发生顺序 mousedown->mouseup->click->mousedown->mouseup->click-dbclick
+                //
+                //
+                var btn_test=document.getElementById('btn_test');
+                EventUtil.addHandler(btn_test,'click',function(event){
+                    event=EventUtil.getEvent(event);
+                    console.log(event.clientX);//离视口的水平位置
+                    console.log(event.clientY);
+
+                    console.log(screenX);//离屏幕的水平位置
+                    console.log(screenY);
+
+                    //通过修改键可以更改一些操作 如shift、alt、ctrl、meta（windows键或者苹果下的cmd键）
+                    //event的四个属性event.shiftKey event.ctrlkey event.altKey event.metaKey(IE不支持此属性) 全都是bool类型
+                    if(event.shiftKey){
+                        console.log('点击的同时按下了shift');
+                    } 
+                    if(event.ctrlKey){
+                        console.log('点击的同时按下了ctrl');
+                    }
+                    if(event.altKey){
+                        console.log('点击的同时按下了alt');
+                    }
+                    if(event.metaKey){ //此属性浏览器支持有问题？
+                        console.log('点击的同时按下了windows键');
+                    }
+
+                });
+
+                //在使用mouseover和mouseout事件时，会有一个相关元素的概念
+                //在event中用relatedTarget属性表示
+                //而在IE中相应的有 fromElement和toElement，因为IE中没有relatedTarget属性
+
+
+                //click事件是单击左键触发，所以没有必要再检测按钮的信息，但是对于mousedown和mouseup来讲，检测鼠标事件很有必要
+                //event有一个button属性，返回0,1,2表示是左键、中间键（滑轮），右键
+                EventUtil.addHandler(document.getElementById('btn_test_mousedown'),'mousedown',function(event){
+                    event=EventUtil.getEvent(event);
+                    console.log(event.button);
+                });
+                //注：IE中也存在button属性，但是与DOM中有比较大的区别，兼容此button属性的方法写入EventUtil对象内
+
+
+                //PS:其他事件信息
+                // event.details(在同一位置相继发生mousedown、mouseup会被累加两次)
+                // IE 浏览器的 event.ctrlLeft event.altLeft event.shiftLeft 
+                // event.offsetX event.offsetY  光标相对于目标元素边界的X，Y值
+            }
+    	</script>
+    </body>
+</html>

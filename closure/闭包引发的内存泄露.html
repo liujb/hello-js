@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>闭包引发的内存泄露</title>
+    </head>
+    <body>
+        <h1>IE中闭包引发的内存泄露</h1>
+        <script type="text/javascript">
+            window.onload=function(){
+                //会引发内存泄露在IE中
+                /*
+                 * 由于匿名函数保存了一个对assignHandler()活动对象的引用，因此就无法减少element的引用数，只要匿名函数存在，element的引用数至少为1
+                 * 因此其用于不能被回收
+                 */
+                function assignHandler(){
+                    var element = document.getElementById('id');
+                    element.onclick=function(){
+                        alert(element.id);
+                    };
+                }
+                
+                
+                //消除内存泄露
+                /*
+                 * 闭包会引用包含函数（外部函数）的整个活动对象，其中包含着element
+                 * 即使闭包不直接引用element，包含函数的活动对象中也会保存着一个element的引用
+                 * 故有必要把element置为null
+                 */
+                function assignHandler2(){
+                    var element = document.getElementById('id');
+                    var id=element.id;//①保存副本
+                    element.onclick=function(){
+                        alert(id);//②消除循环引用
+                    };
+                    element=null;//③消除引用
+                };
+            };
+            
+            
+        </script>
+    </body>
+</html>
+

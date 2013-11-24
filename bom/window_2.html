@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+    	<h1></h1>
+        <input type='button' value='移动到左上角' id='btnMoveToLeftTop' /> 
+        <input type='button' value='向右移动页面' id='btnMove' /> 
+        <input type='button' value='调整页面为固定大小' id='btnResizeTo' /> 
+        <input type='button' value='调整页面' id='btnResizeBy' /> 
+        <input type='button' value='打开新页面' id='btnOpen' /> 
+        <input type='button' value='弹出框-PROMPT' id='btnPrompt' /> 
+    	<script type="text/javascript">
+    		window.onload=function(){
+                //窗口相对于屏幕左边和上边的位置，FireFox提供了window.screenX，和window.screenY
+                var leftPos=(typeof window.screenLeft=='number')?window.screenLeft:window.screenX;
+                var topPos=(typeof window.screenTop=='number')?window.screenTop:window.screenY;
+                console.log('窗口相对浏览器左边的宽度：'+leftPos);
+                console.log('窗体相对浏览器上边的高度：'+topPos);
+
+                //将窗口移动到指定位置
+                var btnLeftTop=document.getElementById('btnMoveToLeftTop');
+                btnLeftTop.onclick=function(){
+                    window.moveTo(0,0);
+                };
+
+                //移动窗口
+                var btnMove=document.getElementById('btnMove');
+                btnMove.onclick=function(){
+                    window.moveBy(20,0);
+                };
+
+                //窗口大小
+                //FF,Safari,Opera,Chrome均提供了innerWidth,innerHeight,outerWidth,outerHeigth四个属性。但是各个浏览器之间差异较大
+                //IE则没有提供浏览器窗口尺寸的属性，而是在DOM中提供了页面可视区域的相关信息
+                //IE,FF,Safari,Opera,Chrome在document.documentElement.ClientWidth以及document.documentElement.ClientHeight保存了页面视口的信息
+                var pageWidth=window.innerWidth
+                    ,pageHeight=window.innerHeight;
+                if(typeof pageWidth !='number'){
+                    if(document.compatMode=='CSS1Compact'){
+                        pageWidth=document.documentElement.ClientWidth;
+                        pageHeight=document.documentElement.ClientHeight;
+                    }else{
+                        pageWidth=document.body.ClientWidth;
+                        pageHeight=document.body.ClientHeight;
+                    }
+                }
+                console.log('页面宽度：'+pageWidth);
+                console.log('页面高度：'+pageHeight);
+
+                //重置窗口大小
+                var btnResizeTo=document.getElementById('btnResizeTo');
+                btnResizeTo.onclick=function(){
+                    window.resizeTo(1000,500);
+                };
+                var btnResizeBy=document.getElementById('btnResizeBy');
+                btnResizeBy.onclick=function(){
+                    window.resizeBy(-10,50);//接收的参数为原窗口与新窗口的宽、高之差，也就是说可以变或者变小窗口
+                };
+
+                //打开新页面
+                var btnOpen=document.getElementById('btnOpen');
+                btnOpen.onclick=function(){
+                    var openedPage=window.open('1.window对象.html','_black','width=400');//window.open()会返回一个指向新窗口的引用
+                    //alert(openedPage.opener==window);//true
+                    setTimeout(function(){
+                        openedPage.opener=null;//新创建的窗体的window对象有一个属性名为opener(其中保存着打开它的原始窗口的信息)
+                        openedPage.close();//关闭刚打开的页面
+
+                    },3000);
+                };
+
+                //弹出框
+                //alert,confirm,prompt
+                var btnPrompt=document.getElementById('btnPrompt');
+                btnPrompt.onclick=function(e){
+                    var txt=prompt('What is your name?','ALLEN');
+                    console.log(txt);
+                    window.print();
+                    //window.find();//不可用在IE9下面
+                    console.log(e);
+                }
+    		};
+    	</script>
+    </body>
+</html>

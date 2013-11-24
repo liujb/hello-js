@@ -1,0 +1,5 @@
+﻿12种javascript mvc框架比较：
+http://www.infoq.com/cn/news/2012/05/js-mvc-framework
+
+Emberjs官方文档：
+http://emberjs.com

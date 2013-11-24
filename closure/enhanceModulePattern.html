@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>增强的模块模式</title>
+    </head>
+    <body>
+        <h1>增强的模块模式</h1>
+        <script type='text/javascript'>
+            window.onload=function(){
+                    /*
+                     * 这种模式适合于那些单例必须是某种类型的实例，同时还必须添加某些属性和方法对其加以增强的作用
+                     */
+                    var singleton=function(){
+                        var privateVariable=100;
+                        var privateMethod=function(){
+                            return false;
+                        };
+                        var obj = new Object();
+                        obj.publicVariable=privateVariable;
+                        obj.publicMethod=function(){
+                            privateVariable++;
+                            return privateMethod();
+                        };
+                        return obj;
+                    }();
+                    
+                    //alert(singleton.publicVariable);//
+                    
+                    //
+                    function BaseComponent(){
+                    };
+                    function OtherComponent(){
+                    };
+                    var application=function(){
+                        var components=new Array();
+                        //components.push(new BaseComponent());
+                        
+                        var app=new BaseComponent();
+                        app.getComponentCount=function(){
+                            return components.length;
+                        };
+                        app.registerComponent=function(component){
+                            if(typeof component==='object'){
+                                components.push(component);
+                            }
+                        };
+                        app.xx=true;
+                        return app;
+                    }();
+                    
+                    
+                    alert(application.xx);//true
+                    application.registerComponent(new BaseComponent());//1
+                    alert(application.getComponentCount());
+            };
+        </script>
+    </body>
+</html>
+

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body id='body1'>
+    	<h1></h1>
+       	<script type="text/javascript">
+    		window.onload=function() {
+                //
+                //DOM 可以将任何HTML或者XMl文档描绘成一个或者多个节点构成的结构
+                //DOM1级定义了一个Node接口，该接口由DOM中所有节点类型实现；除了IE以外其他浏览器中都可以访问到这个类型
+                //共有12种Node
+                //
+                var body=document.getElementById('body1');
+                if(body.nodeType==1){
+                    console.log('元素节点...');
+                    console.log(body.nodeType);//1
+                    console.log(body.nodeName);//BODY
+                    console.log(body.nodeValue);//NULL 元素节点的nodeValue永远为NULL
+                }
+                
+            }
+    	</script>
+    </body>
+</html>

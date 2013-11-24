@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+        <h1></h1>
+        <script type="text/javascript">
+            window.onload=function() {
+                //navigator对象通常用于检测显示网页浏览器的类型
+                console.log(navigator.appCodeName);
+                console.log(navigator.appName);
+                console.log(navigator.cookieEnabled);
+                console.log(navigator.cpuClass);
+                console.log(navigator.platform);
+                console.log(navigator.onLine);
+                console.log(navigator.language);
+                console.log(navigator.plugins);
+                console.log(navigator.systemLanguage);
+
+                //检测浏览器插件两个版本①IE浏览器②非IE浏览器
+                //非IE navigator.plugins数组中的每一个项都有name,description,filename,length
+                function hasNonIEPlugins(pluginsName){
+                    pluginsName=pluginsName.toLowerCase();
+                    for(var i=0,length=navigator.plugins.length;i<length;i++){
+                        var item=navigator.plugins[i];
+                        if(item.name.toLowerCase().indexOf(pluginsName)>-1){
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
+                console.log('是否有Java:'+hasNonIEPlugins('Java'));
+
+                //IE 浏览器是以COM对象的方式实现插件
+                function hasIEPlugins(pluginName){
+                    try{
+                        new ActiveXObject(pluginName);
+                        return true
+                    }catch(e){
+                        return false;
+                    }
+                };
+
+                console.log('IE浏览器下是否有Flash插件:'+hasIEPlugins('ShockwaveFlash.ShockwaveFlash'));
+
+                function hasFlash(){
+                    var result=hasNonIEPlugins('Flash');
+                    if(!result){
+                        result=hasIEPlugins('ShockwaveFlash.ShockwaveFlash');
+                    }
+                    return result;
+                };
+
+                console.log('检测浏览器下是否有Flash插件（各种浏览器）：'+hasFlash());
+
+            }
+        </script>
+    </body>
+</html>

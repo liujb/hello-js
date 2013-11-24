@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+    	<h1></h1>
+       	<script type="text/javascript">
+    		window.onload=function() {
+                history.go(-1);//后退一步
+                history.go(1);//前进一步
+                history.go(2);//前进2步
+                history.back();//跟go效果一样
+                history.forward();//前进
+                if(history.length==0){
+                    alert('这是用户打开窗口后的第一个页面！');
+                }else{
+                    alert('这BU是用户打开窗口后的第一个页面！');
+                }
+            }
+    	</script>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>键盘事件</title>
+    </head>
+    <body>
+    	<h1></h1>
+        <input type='text' id='txt_test' />
+        <input type='text' id='txt_textInput' />
+        <script type="text/javascript" src='EventUtil.js'></script>
+       	<script type="text/javascript">
+    		window.onload=function() {
+                //
+                // 键盘事件主要有 keydown、keypress、keyup三个 主要遵循的还是DOM0级别
+                // keydowm 按下任意键都会被触发 如果按住不放会重复触发
+                // keypress 按下字符键和esc会被触发 如果按住不放回重复触发
+                // keyup 松开时触发
+
+                //键盘事件也支持修改键 shiftKey altKey ctrlKey metaKey
+                var txt_test=document.getElementById('txt_test');
+                EventUtil.addHandler(txt_test,'keydown',function(event){
+                    event=EventUtil.getEvent(event);
+                    //console.log(event.shiftKey); 按下shift时 会显示true
+                    console.log(event.keyCode);//包含一个代码与键盘上特定的键对应，对于数字和字母而言其对应的就是ASCII编码，但是对其他按键就不一定了
+                    console.log(event.charCode);//只有keypress事件有 其值为按下的那个字符对应的ASCII编码
+
+                    //charCode有一定的兼容性问题：所以在EventUtil.js中补充
+                });
+
+                //IE 不支持textInput 事件 只有 Safari和chrome支持
+                EventUtil.addHandler(document.getElementById('txt_textInput'),'textInput',function(event){
+                    //
+                    // textInput事件主要用于处理字符 与keypress有所不同
+                    // ① 任何获得焦点的元素都可以触发keypress事件 而 textInput事件只在可编辑区域才能被触发
+                    // ② textInput 只有在用户输入实际字符的时候触发 而 影响字符的 如 退格 或者delete 不会触发
+                    //
+
+                    event=EventUtil.getEvent(event);
+                    console.log(event.data);
+                });
+            }
+    	</script>
+    </body>
+</html>

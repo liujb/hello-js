@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>New Web Project</title>
+    </head>
+    <body>
+        <h1>模块模式</h1>
+        <script type="text/javascript">
+            window.onload=function(){
+                /*
+                 * 前面的模式适用于为自定义类型创建私有变量和特权方法
+                 * 而模块模式则是为单例模式创建私有变量和特权方法
+                 */
+                var singleton=function(){
+                    var privateVariable=10;
+                    function privateFunction(){
+                        return false;
+                    };
+                    //特权、公有方法和属性
+                    return { 
+                        publicProperty:true,
+                        publicMethod:function(){
+                            privateVariable++;
+                            return privateFunction();
+                        }
+                    };
+                    //由于这个对象是在匿名函数内部定义，因此它的公有方法有权访问私有变量和函数
+                    //从本质上来讲，这个对象字面量定义的是单例的公共接口，这种模式在需要对单例进行某些初始化，同时有需要维护期私有变量时非常有用
+                }();//
+                
+                alert(typeof singleton.publicProperty);//boolean
+                alert(singleton instanceof Object)//true
+                
+                /*
+                 * 使用场景①必须创建一个对象②并且需要使用某些数据进行初始化③并且还需要向外部公开一些方法和属性可以使用此模式
+                 */
+            };
+        </script>
+    </body>
+</html>
+

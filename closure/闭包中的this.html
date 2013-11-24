@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>闭包中的this</title>
+    </head>
+    <body>
+        <h1>闭包中的this</h1>
+        <script type="text/javascript">
+            //window.onload=function(){};
+                /*
+                 * 我们知道this对象是在运行时基于函数的执行环境绑定的
+                 * 在全局环境中this==window，而当函数被作为某个对象的方法调用时，this==那个对象
+                 * 不过匿名函数的环境具有全局性，因此其this对象通常指向window
+                 * 看代码：
+                 */
+                var name = 'this is window variable';
+                var obj = {
+                    name:'this is object variable',
+                    
+                    getNameFunc:function(){
+                        return function(){
+                            return this.name;
+                        };
+                    }
+                };
+                
+                console.log(window.name);
+                alert(obj.getNameFunc()());//this is window variable
+            /*
+             * 为什么匿名函数没有取得其外部作用域的this对象呢？
+             * 每个函数在被调用时，期活动对象都会自动取得两个特殊变量this、arguments。内部函数在搜索这两个变量时，只会搜索到其活动对象为止
+             * 所以永远不可能直接访问外部函数中的这两个对象，不过把this对象保存在一个闭包能够访问到的变量中，就可以让闭包访问该对象了。
+             * 如下代码
+             */
+            var xx = 'window xx';
+            var objXX = {
+                xx:'obj xx',
+                getXX:function(){
+                    var that = this;
+                    return function(){
+                        return that.xx;
+                    };
+                }() //此处若加() 调用时objXX.getXX() 返回的结果与此处不加() 调用 objXX.getXX()()有所不同？值得思考!
+            };
+            
+            alert(objXX.getXX());//
+            
+            //PS：记住一句话，匿名函数的执行环境具有全局性，因此其this对象通常指向window
+        </script>
+    </body>
+</html>
+

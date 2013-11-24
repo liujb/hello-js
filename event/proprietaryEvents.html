@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>浏览器的专有事件</title>
+    </head>
+    <body>
+    	<h1></h1>
+    	<div id='myDiv'>Rigth me to get context menu</div>
+    	<ul id='myMenu' style='position:absolute;visibility:hidden;background-color:silver'>
+    		<li><a href='http://www.baidu.com'>百度</a></li>
+    		<li><a href='http://www.baidu.com'>新浪</a></li>
+    		<li><a href='http://www.baidu.com'>谷歌</a></li>
+    	</ul>
+
+    	<script type="text/javascript" src='EventUtil.js'></script>
+       	<script type="text/javascript">
+    		window.onload=function() {
+                console.log('after DOMContentLoaded');
+                //var xx=[,,];
+                //console.log(xx.length);//IE6,7,8下length为2 且都为undefined 而IE9以及其他浏览器都是两个 为undefined
+
+                //
+                // ① contextmenu事件  该事件是冒泡的
+                //
+                
+                var div=document.getElementById('myDiv');
+                EventUtil.addHandler(div,'contextmenu',function(event){
+                	event=EventUtil.getEvent(event);
+
+                	//EventUtil.stopPropagation(event);
+                	EventUtil.preventDefault(event);
+
+                	var myMenu=document.getElementById('myMenu');
+                	myMenu.style.left=event.clientX+'px';
+                	myMenu.style.top=event.clientY+'px';
+                	myMenu.style.visibility='visible';
+                });
+
+                EventUtil.addHandler(document,'click',function(event){
+                	document.getElementById('myMenu').style.visibility='hidden';
+                });
+
+
+                //
+                // ② 卸载前事件 beforeunload事件为了让开发人员在页面卸载前有可能阻止这一行为
+                //
+                EventUtil.addHandler(window,'beforeunload',function(event){
+                    event=EventUtil.getEvent(event);
+                    event.returnValue='确定要离开吗？';
+                });
+
+                //
+                // ③ 鼠标滚轮事件 mousewheel（NonFF） 和 DOMMouseScroll（FF）
+                // IE6 首先实现mousewheel事件 随手Chrome safari opera也实现了，mousewheel除了包含鼠标事件的所有信息外还包含一个wheelDelta属性（120的倍数）
+                // 这个事件可以在任何元素上发生，最终会冒泡到document（IE）或者window（opera chrome safari）对象
+                // opear 9.5 之前 wheelDelta正负号是相反的
+                // 
+                EventUtil.addHandler(document,'mousewheel',function(event){
+                    event=EventUtil.getEvent(event);
+                    //var wheelDelta=(client.engine.opera && client.engine.opera<9.5)?-event.wheelDelta:wheelDelta;
+                    var wheelDelta = event.wheelDelta;
+                    console.log(wheelDelta);
+                });
+
+                //针对FF DOMMouseScroll 也就是鼠标滚轮事件
+                // 也包含鼠标事件的所有信息 另外还有一个与 wheelDelta对应的 detail信息 （这个属性是 3的倍数，方向与IE中的event.wheelDelta想法）
+                // 可以将DomMouseScroll事件添加到任何元素，但是最终会冒泡到window对象
+                // 
+                EventUtil.addHandler(window,'DOMMouseScroll',function(event){
+                    event=EventUtil.getEvent(event);
+                    console.log(event.detail);
+                });
+
+                // 根据readystatechange事件来动态加载js文件
+                var script = document.createElement('script');
+                script.type='text/javascript';
+                EventUtil.addHandler(script,'readystatechange',function(event){
+                    var target = EventUtil.getTarget(EventUtil.getEvent(event));
+                    if(target.readyState=='loaded'||target.readyState=='complete'){
+                        EventUtil.removeHandler(script,'readystatechange',arguments.callee);
+                        console.log('JS loaded!');
+                    }
+                })
+                script.src='EventUtil.js';
+                document.body.appendChild(script);
+
+                
+            };
+
+            //
+            // ⑤ DOMContentLoaded事件，在形成完整的DOM树之后被触发，
+            // 可以为document或者window添加相应的事件处理，这个事件最终会冒泡到window（实际目标却是document）
+            // 不会提供额外信息,对于不支持DOMContentLoaded事件的浏览器，建议在页面加载期间添加一个超时执行setTimeout(function(){ },0);
+            //
+            EventUtil.addHandler(document,'DOMContentLoaded',function(event){
+                console.log('before load');
+            });
+
+            //
+            // ⑥ 就绪状态变化（readystatechange事件） 提供与文档或者元素加载状态有关的信息，但是支持这个事件的行为有时很难“预料”！！！
+            // 支持该事件的每个对象都有一个属性，叫做 readyState属性 其值为 uninitialized loading loaded （加载完成）interactive（可以操作对象了，但是还没有完全加载） complete （完成）
+            // 在interactive时候 其与DOMContentLoaded差不多时刻触发 但是总得来说都是不可预测的
+            // 这个事件的event对象不会提供任何属性
+            //
+            EventUtil.addHandler(document,'readystatechange',function(event){
+                // 此处event没有任何属性
+                if(document.readyState=='interactive' || document.readyState=='complete'){
+                    // 这说明交互阶段有可能早于也有可能晚于完成阶段
+                    EventUtil.removeHandler(document,'readystatechange',arguments.callee); // 由于事件处理函数使用的是匿名函数，所以就用arguments.callee 来触发
+                    console.log('readystatechange has interactive!');
+                }
+            });
+
+            //
+            // 7 页面显示（pageshow）和页面隐藏（pagehide）事件 针对FF和Opera
+            // FF和Opera有一个特性叫做往返缓存（back-forward cache 缓存中不仅保存着页面数据还保存着DOM状态和js对象）
+            // pageshow 会在load事件触发之后触发（不管来自于缓存还是重新刷新）
+            // 这个事件的目标虽然是document，但是会冒泡到window
+            //
+
+            (function(){
+                var showCount=0;
+
+                EventUtil.addHandler(window,'pageshow',function(event){
+                    showCount++;
+                    event=EventUtil.getEvent(event);               
+                    console.log('fired pageshow event. times '+showCount+'persisted:'+event.persisted);
+                    // event.persisted表示true的话，那么页面就保存在缓存中
+                });
+
+                EventUtil.addHandler(window,'pagehide',function(event){
+                    event=EventUtil.getEvent(event);
+                    console.log('fired pagehide event. persisted:'+event.persisted);
+                });
+
+            })();
+    	</script>
+    </body>
+</html>

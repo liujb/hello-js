@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>闭包与变量</title>
+    </head>
+    <body>
+        <h1>闭包与变量</h1>
+        <script type="text/javascript">
+            window.onload=function(){
+                /*
+                 * 闭包的这种配置引出了一个值得注意的副作用：即闭包只能取得包含函数中任何变量的最后一个值，别忘了闭包所保存的是整个变量对象，而不是某个特定的对象
+                 * 看如下代码：
+                 */
+                function createFunction(){
+                    var results = new Array();
+                    for (var i=0; i < 10; i++) {
+                        /*results[i]=function(){ //将函数赋值给数组的某项
+                            return i;
+                        };*/
+                       //重写版本
+                       results[i]=function(num){  //返回匿名函数并立即执行匿名函数（而执行匿名函数的结果是返回另一匿名函数！）
+                           return function(){
+                               return num;
+                           };
+                       }(i);
+                    };
+                    return results;//返回这个函数数组
+                };
+                
+                var funcs = createFunction();//函数数组
+                
+                for (var i=0; i < funcs.length; i++) {
+                  alert(funcs[i]());//结果每次都弹出10，是不是很奇怪呢？？？
+                  //重写后弹出0,1,2,3....
+                };
+                
+                /*
+                 * 为什么每次都弹出10呢？原因：当createFunction()返回后，变量i==10，此时每个函数都保存着变量i的同一个对象。
+                 * 所以每个函数的内部i都是10！
+                 */
+                
+                /*
+                 * ①在这个版本中，我们没有直接把闭包赋值给数组，而是定义一个匿名函数，并将立即执行该匿名函数的结果赋值给数组
+                 * ②这里的匿名函数有一个参数num，也就是最终要返回的值，在调用每个匿名函数时，我们传入了变量i，由于函数参数是按值传递
+                 * ③所以就会将变量i的值复制给当前的参数num。
+                 * ④而这个匿名函数的内部，又创建并返回了一个返回num的闭包，这样一来results数组中的每个函数都有一个自己的num变量副本，因此就可以返回各自不同的数值。
+                 */
+                
+            };
+        </script>
+    </body>
+</html>
+

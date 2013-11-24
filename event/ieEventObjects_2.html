@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+    	<h1></h1>
+        <input type='button' id='btn_test' value='Test' />
+       	<script type="text/javascript">
+    		window.onload=function() {
+                //DOM0级方法添加的事件处理程序，event对象作为window对象的属性存在
+                var btn_test=document.getElementById('btn_test')
+                btn_test.onclick=function(event) {
+                    //console.log(event.type); //IE6,7,8中都不能正常显示,但是在IE9下正常输出click
+                    console.log(window.event.type); //click
+                };
+
+                //如果事件处理程序是DOM2级别也就是通过attachEvent()方法添加的，那么event会作为参数传入到处理函数中
+
+                btn_test.attachEvent('onclick',function(event) {
+                    console.log(event.cancelBubble);//默认false，如果设置为true就可以取消事件冒泡，与DOM中stopPropagation()方法作用相同——阻止冒泡
+                    console.log(event.returnValue)//默认true，若设置为false，那么就可以取消事件的默认行为了，与DOM中的preventDefault()方法一样
+                    console.log(event.srcElement);//与DOM中的target相同
+                    console.log(event.srcElement===btn_test);
+                    console.log(event.type);
+                });
+
+
+            }
+    	</script>
+    </body>
+</html>

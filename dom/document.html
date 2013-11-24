@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>测试document</title>
+    </head>
+    <body>
+    	<h1></h1>
+       	<script type="text/javascript">
+    		window.onload=function() {}
+                //
+                // JS通过Document类型表示文档，在浏览器中，document对象是HTMLDocument（继承自Document类型）的一个实例。
+                // document表示整个HTML页面
+                // Document类型可以表示HTML页面或者其他基于XML的文档，不过最常见的还是作为HTMLDocument的实例的document对象
+                // 除了IE以外，任何浏览器都可以通过js访问Document类型的构造函数和原型。但是所有浏览器都可以访问HTMLDocument的构造函数和原型
+                //
+
+                var html = document.documentElement;//取得<html>的引用
+                console.log(html.nodeType); //1 还是Element元素
+                console.log(html.nodeName); //HTML
+                console.log(html.nodeValue); //NULL
+                console.log(html===document.childNodes[1]);// true childNodes[0] 表示的是<!DOCTYPE >
+                console.log(html===document.firstChild); // false 表示的是<!DOCTYPE >
+
+                var body = document.body;//取得<body>的引用
+                console.log(body.nodeType);
+                console.log(body.nodeName);
+                console.log(body.nodeValue);
+
+                var docType = document.doctype;//取得对<!DOCTYPE >的引用
+                console.log(docType.nodeType);//10
+                console.log(docType.nodeName);//HTML
+                console.log(docType.nodeValue);
+
+                var title = document.title;
+                console.log(title);
+
+                var url = document.URL;
+                console.log(url);
+
+
+                //可以设置，但是有限制 如果URL中包含子域名p2p.wrox.com 那么domain只能设置为wrox.com
+                // 由于安全设置，来自不同子域的页面不能通过js通信，如果将每个页面的domain设为相同，那么这些页面就可以互相访问对方包含的js对象了。
+                var domain = document.domain;
+                console.log(domain);
+
+                var referrer = document.referrer;
+                console.log(referrer);
+
+                //三个查找元素的方法
+                // ① Document类型提供了 getElementById();返回该元素或者null，注意严格按照标准来 即大小写注意啊（不同浏览器有兼容问题）、注意不要让表单字段的name特性与其他元素的ID相同。
+                // ,getElementByTagName();返回HTMLCollection对象，与NodeList类似，可以使用[]或者item(index) 访问具体某个元素 还有namedItem('name')
+                // ② HTMLDocument类型提供了 getElementByName()
+
+                //特殊集合
+                //document.anchors //文档中所有带有name特性的<a>元素
+                //document.applets
+                //document.forms
+                //document.images
+                //document.links //包含文档中所有带href特性的<a>元素
+
+    	</script>
+    </body>
+</html>

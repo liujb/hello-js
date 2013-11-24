@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+    	<h1></h1>
+        <input type='button' id='btn_test' value='Click me' />
+       	<script type="text/javascript">
+    		window.onload=function() {
+                
+                // 1：事件流描述的是从页面接收事件的顺序，有意思的是IE和Netscape提出了完全相反的事件流概念
+                // IE 提出事件冒泡流，从里到外
+                // Netscape 提出事件捕获流，从外到里 （虽然DOM2 要求从document对象开始传播，但是FF，Opera，Safari，Chrome还是从window对象开始传播）
+
+
+                // 2：DOM2级事件规定事件流包括三个阶段 ① 事件捕获阶段 ② 处于目标阶段 ③ 事件冒泡阶段
+                // 捕获阶段不会接收事件
+                // 但是FF Chrome Safari Opera还是会在捕获阶段触发事件对象上的事件，结果就是有两个机会再目标对象上操作事件
+
+                // 3：事件处理程序（或者叫做事件侦听器）
+                // 分为HTML事件处理程序、DOM0级事件处理程序（所有浏览器都支持）、DOM2级事件处理程序(IE 跟非IE浏览器差异较大)
+                // HTML事件处理程序就是将　一个与事件处理程序同名的HTML特性指定为特定的值（能够执行js的代码） 如<input type='button' onclick="alert('Hi')" />
+                // DOM0 级事件处理程序 如： var button = document.getElementById('btn_test'); button.onclick=function(){  }; button.onclick=null;
+                // DOM2 级事件处理程序
+                // IE 事件处理程序
+
+                var btn_test = document.getElementById('btn_test');
+                btn_test.addEventListener('click',function(){
+                    console.log(this.id);
+                },false);//这个false表示在冒泡阶段调用事件处理程序，否则就是捕获阶段调用处理程序
+                
+            }
+    	</script>
+    </body>
+</html>

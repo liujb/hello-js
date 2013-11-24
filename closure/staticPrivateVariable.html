@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>静态私有变量</title>
+    </head>
+    <body>
+        <h1>静态私有变量</h1>
+        <script type="text/javascript">
+            window.onload=function(){
+                /*
+                 * 
+                 */
+                (function(){
+                    var privateVariable=100;
+                    function privateFunction(){
+                        return true;
+                    };
+                    MyObject=function(){//未使用var关键字，会成为一个全局变量,注意此处并没有使用函数声明而是使用函数表达式
+                    };
+                    MyObject.prototype.publicMethod=function(){
+                        privateVariable++;
+                        return privateFunction();
+                    };
+                })()
+                
+                var obj=new MyObject();
+                //alert(obj.publicMethod());
+                
+                (function(){
+                    var name='';
+                    Person=function(value){
+                        name=value;
+                    };
+                    Person.prototype.getName=function(){
+                        return name;
+                    };
+                    Person.prototype.setName=function(value){
+                        name=value;
+                    };
+                })()
+                
+                var person1=new Person("ALLEN");
+                alert(person1.getName());//ALLEN
+                
+                var person2=new Person('WIFY');
+                person2.setName('CAONIDATE');
+                alert(person1.getName());//CAONIDATE 两个实例共享同一个函数
+                alert(person2.getName());//CAONIDATE
+            };
+        </script>
+    </body>
+</html>
+
