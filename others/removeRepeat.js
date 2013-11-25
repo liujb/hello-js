@@ -21,7 +21,7 @@ var func2 = function(arr) {
 				j = false;
 				break; //发现元素相同则跳出循环
 			} else {}
-		};
+		}
 		if (j) {
 			newArr.push(arr[i]);
 		} else {}
@@ -40,8 +40,8 @@ function func3(ar) {
 			o[m] = true;
 		}
 	return n.sort(function(a, b) {
-		return a - b
-	});;
+		return a - b；
+	});
 }
 
 arr = func2(arr);

@@ -1,34 +1,18 @@
-/**
- * test.js
- * @authors Your Name (you@example.org)
- * @date    2013-11-14 11:04:38
- * @version $Id$
- */
-
-var obj2Body = function(obj) {
-	var res = '';
-	if (obj) {
-		for (var p in obj) {
-			if (obj.hasOwnProperty(p)) {
-				res += '&' + p + '=' + obj[p] + '';
+var getElesByClassName = function(node, className) {
+	if (node.getElementsByClassName) {
+		console.log('支持');
+		return node.getElementsByClassName(className);
+	} else {
+		console.log('不支持');
+		var res = [];
+		var eles = node.getElementsByTagName("*");
+		for (var i = 0, len = eles.length; i < len; i++) {
+			if (eles[i].getAttribute) {
+				if (eles[i].getAttribute("className").indexOf(className) !== -1) {
+					res.push(eles[i]);
+				} else {}
 			} else {}
-		};
-	} else {}
-	return res.replace(/^\&/, "");
-};
-
-var obj = {
-	name: 'jiangbei',
-	age: 23,
-	love: 'grils'
-};
-
-console.log(obj2Body(obj));
-
-
-function init7() {
-	var pAry = document.getElementsByTagName("p");
-	for (var i = 0; i < pAry.length; i++) {
-		pAry[i].onclick = Function('alert(' + i + ')')
+		}
+		return res;
 	}
-}
+};

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Css画向下的箭头</title>
 	<style>
 	.arrow-bottom-collapse{
 		height: 0px;
@@ -11,13 +11,24 @@
 		border: 4px solid #000;
 		border-color: #000 transparent transparent transparent;
 		display: inline-block;
-		/*_zoom: 2;*/
+		_zoom: 2;
 		cursor: pointer;
+	}
+	.arrow-left-collapse{
+		height: 0px;
+		line-height: 0px;
+		width: 0px;
+		border: 4px solid #000;
+		border-color: transparent transparent transparent #000;
+		display: inline-block;
+		_zoom: 2;
+		cursor: pointer;	
 	}
 	</style>
 </head>
 
 <body>
+	<span class="arrow-left-collapse"></span>
 	<span class="arrow-bottom-collapse"></span>
 </body>
 </html>

@@ -1,17 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
+    <meta charset="UTF-8">
+    <title>Document</title>
 </head>
 <body>
-    <h1>是不是乱码啊！！！</h1>
+    <h1>Test-getElementsByClassName</h1>
     <script type="text/javascript">
             window.onload=function() {
-                //var xx=[,,];
-                //console.log(xx.length);//IE6,7,8下length为2 且都为undefined 而IE9以及其他浏览器都是两个 为undefined
-
                 function getElesByClassName(node,className){
                     if(node.getElementsByClassName){
                         console.log('支持');
@@ -23,8 +19,7 @@
                         for(var i=0,len=eles.length;i<len;i++){
                             if(eles[i].getAttribute){
                                 if(eles[i].getAttribute("className").indexOf(className) !== -1){
-                                    //res.push(eles[i]);
-                                    res[res.length] = eles[i];
+                                    res.push(eles[i]);
                                 }else{}
                             }else{}
                         };
@@ -43,10 +38,10 @@
                     }else{
                         console.log('不支持getAttribute');
                     }
-                    console.log(typeof p[0].getAttribute("name")+ typeof p[0].name);
+                    console.log("p[0].getAttribute('name'): "+typeof p[0].getAttribute("name"));
+                    console.log("typeof p[0].name: "+typeof p[0].name)
                     console.log(p[0].childNodes[0].nodeValue)
                 }else{
-                    console.log('FUCK!');
                 }
             }
         </script>

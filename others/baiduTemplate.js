@@ -149,8 +149,8 @@
 				while (/<[^<]*?&#39;[^<]*?>/g.test(str)) {
 
 					//将标签内的单引号转义为\r  结合最后一步，替换为\'
-					str = str.replace(/(<[^<]*?)&#39;([^<]*?>)/g, '$1\r$2')
-				};
+					str = str.replace(/(<[^<]*?)&#39;([^<]*?>)/g, '$1\r$2');
+				}
 			} else {
 				str = item;
 			}
@@ -182,7 +182,7 @@
 
 			//默认不转义HTML转义
 			.replace(new RegExp("\\t=(.*?)" + _right, "g"), "',typeof($1) === 'undefined'?'':$1,'");
-		};
+		}
 
 		str = str
 
