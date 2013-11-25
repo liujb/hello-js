@@ -85,17 +85,17 @@ console.log("pop: " + data.join());
  * slice(start,end);
  * 数组进行浅复制，原数组不受影响
  * 若位指定end将达到length
- * 若有负数会跟length作和，若求和后start>end将返回空数组
+ * 若有负数会跟length作和，若求和后start大于end将返回空数组
  */
 var sliceArray = data.slice(-2, 5); //相当于data.slice(-2+data.length,5);
 console.log("slice: " + data);
-console.log("slice: " + sliceArray.length)
+console.log("slice: " + sliceArray.length);
 console.log("slice: " + sliceArray.join(","));
 
 
 /**
  * data.splice(index,howmany,item1,.....,itemX);
- * 删除data数组中从index开始的howmany项目
+ * 删除data数组中从index开始的howmany项
  * 并将这两项作为新的数组返回
  * splice方法一定会返回数组对象
  * 若index为负数也会跟data.length做和

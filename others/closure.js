@@ -15,7 +15,7 @@ var add = function(num) {
 };
 /*访问add函数的指针*/
 var result = callFunction(add, 10);
-alert(result); //20
+console.log(result); //20
 /*以上代码将函数传递给另一个函数*/
 /*以下代码将函数作为一个值返回*/
 /*
@@ -44,5 +44,5 @@ var data = [{
 	age: 19
 }];
 data.sort(createComparisonFunction("age "));
-alert(data[0].name);
-alert(data[1].name);
+console.log(data[0].name);
+console.log(data[1].name);
