@@ -6,7 +6,7 @@ var msg = 'message';
 var obj = {};
 var num = 10;
 var bool = false;
-var undefined1 = undefined;
+var undefined1;
 var null1 = null;
 var function1 = function() {};
 var undefinedVar;
