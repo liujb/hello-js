@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>锯齿</title>
+	<style type="text/css">
+		.bb{
+			width: 300px;
+			height:5px;
+			border-radius: 10px;
+			border: 7px solid #ededed;
+			/*display: none;*/
+			/*border-bottom-color:#fff;*/
+		}
+		.con{
+			border: 1px solid #ededed;
+			width: 300px;
+			height: 200px;
+			position: relative;
+			top:0px;
+			left:0px;
+			background-color: white;
+		}
+		.con p{
+			height: 100px;
+			padding: 0px;
+			margin: 0px;
+		}
+
+		.con:after{ display: block; content: ""; height: 13px; margin-top: 0px; background-color: white; background-size: 15px 26px; background-image: linear-gradient(45deg, #eddff7 25%, transparent 25%, transparent), linear-gradient(-45deg, #eddff7 25%, transparent 25%, transparent), linear-gradient(45deg, transparent 75%, #eddff7 75%), linear-gradient(-45deg, transparent 75%, #eddff7 75%); }
+
+		.run{
+			-webkit-transform: translateY(300px);
+			-webkit-transition: all 1s 1s ease;
+			-webkit-transform-origin: 50% 50%;
+			-moz-transition: all 1s 1s ease;
+			-moz-transform-origin: 50% 50%;
+		}
+		.animation {
+			-webkit-animation-duration: 1s;
+			-webkit-animation-delay: .2s;
+			-webkit-animation-timing-function: ease;
+			-webkit-animation-fill-mode: both;
+			-moz-animation-duration: 1s;
+			-moz-animation-delay: .2s;
+			-moz-animation-timing-function: ease;
+			-moz-animation-fill-mode: both;
+		}
+	</style>
+</head>
+<body>
+	<div class="bb">
+		<div class="con" id='xxx'>
+			<p>￥车费50元</p>
+			<p>微信价40元</p>
+		</div>
+	</div>
+	
+	 <script type="text/javascript">
+	 window.onload = function(){
+	 	var xxx = document.getElementById("xxx");
+	 	xxx.style.display = "inline-block";
+	 };
+	 </script>
+</body>
+</html>

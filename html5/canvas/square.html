@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+</head>
+<body>
+	<canvas id="canvas_test" width="400" height="300"></canvas>
+	<script type="text/javascript">
+	window.onload = function(ev){
+
+		
+		/**
+		 * 绘制画布
+		 */
+		var create_canvas = function(id,width,height){
+			var canvas = document.getElementById(id);
+			if(canvas&&canvas.getContext){
+				var ctx = canvas.getContext("2d");
+				// 初始化画布
+				ctx.fillStyle="#EEEFFF";
+				ctx.fillRect(0,0,width,height);
+				return ctx;
+			}else{
+				return false;
+			}
+		}
+
+		/**
+		 * 画正方形
+		 */
+		var draw_square = function(id){
+			var ctx = create_canvas(id,400,300);
+			ctx.fillStyle = "red";
+			ctx.strokeStyle = "blue";
+			ctx.lineWidth = 1;
+			// ctx.fillRect(50,50,100,100);
+			ctx.strokeRect(50,50,100,100);
+		};
+	    // draw_square("canvas_test");
+	    
+	    /**
+	     * 画阴影 
+	     */
+	    function draw_shape() {
+			var canvas = document.getElementById('canvas_test');
+			if (canvas.getContext) {
+			var ctx = canvas.getContext('2d');
+
+		    ctx.fillRect(25,25,100,100);
+		    ctx.clearRect(45,45,60,60); // 清除
+		    ctx.strokeRect(50,50,50,50);
+		  }
+		}
+		// draw_shape();
+
+		/**
+		 * 画向下的箭头
+		 */
+		function draw_collapse() {
+		  var canvas = document.getElementById('canvas_test');
+		  if (canvas.getContext){
+		    var ctx = canvas.getContext('2d');
+		    ctx.beginPath();
+		    ctx.moveTo(50,50);
+		    ctx.lineTo(100,50);
+		    ctx.lineTo(75,75);
+		    ctx.fill();
+		  }
+		};
+		// draw_collapse();
+
+		/**
+		 * 画圆弧
+		 */
+		var draw_circle = function(id){
+			var ctx = create_canvas(id,400,300);
+		    ctx.moveTo(50, 50); // 指定绘制路径的起始点
+		    // ctx.lineTo(150, 50);
+		    var p1 = {
+		        x : 200,
+		        y : 50
+		    };
+		    var p2 = {
+		        x : 200,
+		        y : 100         
+		    };
+		    //绘制与当前端点、端点1、端点2三个点所形成的夹角的两边相切并且半径为50px的圆的一段弧线
+		    ctx.arcTo(p1.x, p1.y, p2.x, p2.y, 50);
+		    ctx.strokeStyle = "blue";
+		    ctx.stroke();
+		};
+		// draw_circle("canvas_test");
+		
+		/**
+		 * 圆弧
+		 */
+		var draw_circle = function(id){
+			var ctx = create_canvas(id,400,300);
+			var point = {
+				x:200,
+				y:200
+			}
+			ctx.lineWidth = 22;
+			ctx.arc(point.x,point.y,90,0.25*Math.PI,0.75*Math.PI,true);
+			ctx.strokeStyle="orange";
+			ctx.lineCap = "round";
+			ctx.stroke();
+		} 
+		// draw_circle("canvas_test");
+
+		/**
+		 * 画笑脸
+		 */
+		function draw_smilingface() {
+		  var canvas = document.getElementById('canvas_test');
+		  if (canvas.getContext){
+		    var ctx = canvas.getContext('2d');
+
+		    ctx.beginPath();
+		    ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+		    ctx.moveTo(110,75);
+		    ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
+		    ctx.moveTo(65,65);
+		    ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+		    ctx.moveTo(95,65);
+		    ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+		    ctx.stroke();
+		  }
+		};
+		// draw_smilingface();
+
+		/**
+		 * 画气泡
+		 */
+		function draw_bubble() {
+		  var canvas = document.getElementById('canvas_test');
+		  if (canvas.getContext) {
+		    var ctx = canvas.getContext('2d');
+
+		    // Quadratric curves example
+		    ctx.beginPath();
+		    ctx.moveTo(75,25);
+		    ctx.quadraticCurveTo(25,25,25,62.5);
+		    ctx.quadraticCurveTo(25,100,50,100);
+		    ctx.quadraticCurveTo(50,120,30,125);
+		    ctx.quadraticCurveTo(60,120,65,100);
+		    ctx.quadraticCurveTo(125,100,125,62.5);
+		    ctx.quadraticCurveTo(125,25,75,25);
+		    ctx.stroke();
+		  }
+		};
+		// draw_bubble();
+		
+		/**
+		 * 画心
+		 */
+		function draw_heart() {
+		  var canvas = document.getElementById('canvas_test');
+		  if (canvas.getContext){
+		    var ctx = canvas.getContext('2d');
+
+		    // Quadratric curves example
+		    ctx.beginPath();
+		    ctx.moveTo(75,40);
+		    ctx.bezierCurveTo(75,37,70,25,50,25);
+		    ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+		    ctx.bezierCurveTo(20,80,40,102,75,120);
+		    ctx.bezierCurveTo(110,102,130,80,130,62.5);
+		    ctx.bezierCurveTo(130,62.5,130,25,100,25);
+		    ctx.bezierCurveTo(85,25,75,37,75,40);
+		    ctx.fill();
+		  }
+		};
+		// draw_heart();
+		
+		/**
+		 * 画图表
+		 */
+		function draw_graph() {
+		  var ctx = document.getElementById('canvas_test').getContext('2d');
+		  var img = new Image();
+		  img.onload = function(){
+		    ctx.drawImage(img,0,0);
+		    ctx.beginPath();
+		    ctx.moveTo(30,96);
+		    ctx.lineTo(70,66);
+		    ctx.lineTo(103,76);
+		    ctx.lineTo(170,15);
+		    ctx.stroke();
+		  };
+		  img.src = 'https://mdn.mozillademos.org/files/5395/backdrop.png';
+		}
+		// draw_graph();
+				
+		/**
+		 * 旋转，循环
+		 */
+		function draw_rotate() {
+		  var ctx = document.getElementById('canvas_test').getContext('2d');
+		  ctx.translate(75,75);
+
+		  for (var i=1;i<4;i++){ // Loop through rings (from inside to out)
+		    ctx.save();
+		    ctx.fillStyle = 'rgb('+(51*i)+','+(255-51*i)+',255)';
+
+		    for (var j=0;j<i*6;j++){ // draw individual dots
+		      ctx.rotate(Math.PI*2/(i*6));
+		      ctx.beginPath();
+		      ctx.arc(0,i*12.5,5,0,Math.PI*2,true);
+		      ctx.fill();
+		    }
+
+		    ctx.restore();
+		  }
+		};
+	    // draw_rotate();
+
+
+	    /**
+	     * 变形
+	     * @return {[type]} [description]
+	     */
+		function draw_transform() {
+		  var ctx = document.getElementById('canvas_test').getContext('2d');
+
+		  var sin = Math.sin(Math.PI/6);
+		  var cos = Math.cos(Math.PI/6);
+		  ctx.translate(100, 100);
+		  var c = 0;
+		  for (var i=0; i <= 12; i++) {
+		    c = Math.floor(255 / 12 * i);
+		    ctx.fillStyle = "rgb(" + c + "," + c + "," + c + ")";
+		    ctx.fillRect(0, 0, 100, 10);
+		    ctx.transform(cos, sin, -sin, cos, 0, 0);
+		  }
+		  
+		  ctx.setTransform(-1, 0, 0, 1, 100, 100);
+		  ctx.fillStyle = "rgba(255, 128, 255, 0.5)";
+		  ctx.fillRect(0, 50, 100, 100);
+		}
+		// draw_transform();
+	};
+	</script>
+</body>
+</html>
