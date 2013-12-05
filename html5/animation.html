@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>First Animation</title>
+<style>
+	.animation{
+		background-color: orange;
+		border:1px solid black;
+		height: 30px;
+		overflow-y:hidden;
+		-webkit-transition: all 0.3s ease-in-out 0.4s;
+		opacity:0.5;
+	}
+	.run{
+		-webkit-transform: translateY(20px);
+		-webkit-box-shadow:0 0 10px #000000; opacity:1;
+		height: 300px;
+		border-width:3px;
+		opacity:0.5;
+	}
+</style>
+</head>
+<body>
+	<div class="animation" id="a_div">
+		<p style="height:80px">动画通过元素的状态或者js的触发</p>
+		<p style="height:80px">如 .animation:hover</p>
+		<p style="height:80px"><input type="button" value="BUTTON" /> </p>
+	</div>
+	<script src="../jsLib/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			setTimeout(function(){
+				var div = document.getElementById("a_div");
+				div.className = "animation run";
+			},1000); 
+		};
+	</script>
+</body>
+</html>

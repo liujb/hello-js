@@ -1,10 +1,186 @@
-	var circleCfg = {
-		x: arcCfg.x - p.w,
-		y: arcCfg.y + p.h,
-		radius: 30,
-		startRadian: 0,
-		endRadian: 2,
-		lineWidth: 2,
-		color: "#ffffff",
-		strokeColor: "#e6e6e6"
+window.onload = function() {
+
+	/**
+	 * 圆弧的配置
+	 * 小圆环的配置
+	 * 字体的配置
+	 */
+	var
+	arcCfg = {
+		x: 160,
+		y: 160,
+		radius: 90,
+		startRadian: 0.75,
+		endRadian: 0.25,
+		lineWidth: 24,
+		color: "#ffa000",
+		slidColor: "#cdcdcd"
+	},
+		cirlce_p = equation(arcCfg.radius, arcCfg.endRadian * Math.PI),
+		circleCfg = {
+			x: arcCfg.x - cirlce_p.w,
+			y: arcCfg.y + cirlce_p.h,
+			radius: 30,
+			startRadian: 0,
+			endRadian: 2,
+			lineWidth: 2,
+			color: "#ffffff",
+			strokeColor: "#e6e6e6"
+		};
+
+	/**
+	 * 画图总函数
+	 */
+	var draw = function(offset, circle_point, second, car_count) {
+		var separate;
+		if (offset >= 1.25) {
+			separate = (offset + 0.75) - 2;
+		} else if (offset > 0 && offset < 1.25) {
+			separate = offset + 0.75;
+		} else {
+			separate = arcCfg.startRadian;
+		}
+
+		var ctx = get_canvas_ctx("canvas_test", 400, 300);
+		ctx.lineCap = "round";
+
+		draw_arc(ctx, arcCfg.slidColor, arcCfg.startRadian, separate);
+		draw_arc(ctx, arcCfg.color, separate, arcCfg.endRadian);
+
+		write_text(ctx, "已推送", "#b0b0b0", "700 20px sans-serif", arcCfg.x, arcCfg.y - 25);
+		write_text(ctx, "辆出租车", "#b0b0b0", "700 20px sans-serif", arcCfg.x, arcCfg.y + 40);
+		write_text(ctx, car_count.toString(), '#ff8a01', "700 53px sans-serif", arcCfg.x, arcCfg.y + 20);
+
+		draw_circle(ctx);
+		write_text(ctx, second.toString() + "秒", '#ff8a01', "700 20px sans-serif", circle_point.x, circle_point.y + 5);
+
+		/**
+		 * 绘制画布并返回canvas的context对象
+		 */
+		function get_canvas_ctx(id, width, height) {
+			var canvas = document.getElementById(id);
+			if (canvas && canvas.getContext) {
+				var ctx = canvas.getContext("2d");
+				// 初始化画布
+				ctx.fillStyle = "#eeeff0";
+				ctx.fillRect(0, 0, width, height);
+				return ctx;
+			} else {
+				return false;
+			}
+		}
+
+		function draw_arc(ctx, color, startRadian, endRadian) {
+			ctx.beginPath();
+			ctx.lineWidth = arcCfg.lineWidth;
+			ctx.strokeStyle = color;
+			ctx.arc(arcCfg.x, arcCfg.y, arcCfg.radius, startRadian * Math.PI, endRadian * Math.PI, false);
+			ctx.stroke();
+			ctx.closePath();
+		}
+
+		function draw_circle(ctx) {
+			ctx.beginPath();
+			ctx.lineWidth = circleCfg.lineWidth;
+			ctx.fillStyle = circleCfg.color;
+			ctx.strokeStyle = circleCfg.strokeColor;
+			ctx.arc(circle_point.x, circle_point.y, circleCfg.radius, circleCfg.startRadian, circleCfg.endRadian * Math.PI, true);
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+		}
+
+		function write_text(ctx, txt, color, fontStyle, x, y) {
+			ctx.beginPath();
+			ctx.fillStyle = color;
+			ctx.font = fontStyle;
+			ctx.textAlign = "center";
+			ctx.fillText(txt, x, y);
+			ctx.closePath();
+		}
 	};
+
+	var init = (function() {
+		draw(0, circleCfg, 90, 0);
+	})();
+
+	var set_interval;
+	var run_interval = function(times, interval) {
+		var i = 1;
+		set_interval = setInterval(function() {
+			var offset = (1.5 / times) * i,
+				circle_p = calcPoint(arcCfg, offset),
+				second = times / (1000 / interval),
+				car_count = i * 10;
+			draw(offset, circle_p, second - i, car_count);
+
+			if (i === times) {
+				clearInterval(set_interval);
+			} else {}
+			i++;
+		}, interval);
+	};
+	run_interval(90, 1000);
+
+
+
+	/**
+	 * 计算小圆的圆心
+	 * 通过大圆环的半径、起始坐标以及偏移量
+	 */
+	function calcPoint(arcCfg, offset) {
+		var p, res;
+		var target = arcCfg.startRadian + offset;
+		if (target <= 1) {
+			target = target - 0.5;
+			p = equation(arcCfg.radius, target * Math.PI);
+			res = {
+				x: arcCfg.x - p.w,
+				y: arcCfg.y + p.h
+			};
+		} else if (target > 1 && target <= 1.5) {
+			target = target - 1;
+			p = equation(arcCfg.radius, target * Math.PI);
+			res = {
+				x: arcCfg.x - p.h,
+				y: arcCfg.y - p.w
+			};
+		} else if (target > 1.5 && target <= 2) {
+			target = target - 1.5;
+			p = equation(arcCfg.radius, target * Math.PI);
+			res = {
+				x: arcCfg.x + p.w,
+				y: arcCfg.y - p.h
+			};
+		} else if (target > 2) {
+			target = target - 2;
+			p = equation(arcCfg.radius, target * Math.PI);
+			res = {
+				x: arcCfg.x + p.h,
+				y: arcCfg.y + p.w
+			};
+		} else {}
+		return res;
+	}
+
+	/**
+	 * 计算三角函数的值
+	 */
+	function equation(r, radian) {
+		return {
+			w: r * Math.sin(radian),
+			h: r * Math.sqrt(1 - Math.sin(radian) * Math.sin(radian))
+		};
+	}
+
+
+	document.getElementById("btn_test").onclick = function() {
+		clearInterval(set_interval);
+		run_interval(900, 100);
+	};
+
+	document.getElementById("btn_cancel").onclick = function() {
+		clearInterval(set_interval);
+	};
+
+};

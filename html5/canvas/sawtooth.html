@@ -4,62 +4,94 @@
 	<meta charset="UTF-8">
 	<title>锯齿</title>
 	<style type="text/css">
+	body{
+		background-color: #eeeff1;
+	}
 		.bb{
-			width: 300px;
-			height:5px;
-			border-radius: 10px;
-			border: 7px solid #ededed;
-			/*display: none;*/
-			/*border-bottom-color:#fff;*/
+			width: 304px;
+			height:2px;
+			border-radius: 15px;
+			border: 8px solid #d3d3d3;
+			background-color: #d3d3d3;
 		}
 		.con{
-			border: 1px solid #ededed;
-			width: 300px;
-			height: 200px;
-			position: relative;
-			top:0px;
-			left:0px;
+			
+			width: 303px;
+			height: 10px;
 			background-color: white;
-		}
-		.con p{
-			height: 100px;
-			padding: 0px;
-			margin: 0px;
-		}
+			border-left: 1px solid #d3d3d3;
+			border-right: 1px solid #d3d3d3;
+			text-align: center;
+			vertical-align: middle;
+			overflow-y: hidden;
+			box-shadow: 2px 2px 15px #888888;
 
-		.con:after{ display: block; content: ""; height: 13px; margin-top: 0px; background-color: white; background-size: 15px 26px; background-image: linear-gradient(45deg, #eddff7 25%, transparent 25%, transparent), linear-gradient(-45deg, #eddff7 25%, transparent 25%, transparent), linear-gradient(45deg, transparent 75%, #eddff7 75%), linear-gradient(-45deg, transparent 75%, #eddff7 75%); }
+		}
+		.xx{
+		}
+		.xx:before {
+			display: block;
+			content: "";
+			height: 14px;
+			margin-top: 0px;
+			background-color: #eeeff1;
+			background-size: 15px 26px;
+			background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent), linear-gradient(-45deg, #fff 25%, transparent 25%, transparent), linear-gradient(45deg, transparent 75%, #FFFFFF 75%), linear-gradient(-45deg, transparent 75%, #FFFFFF 75%);
+
+		}
 
 		.run{
-			-webkit-transform: translateY(300px);
-			-webkit-transition: all 1s 1s ease;
+			/*-webkit-transform: translateY(300px);*/
+			-webkit-transition: all 3s .1s ease-out;
 			-webkit-transform-origin: 50% 50%;
 			-moz-transition: all 1s 1s ease;
 			-moz-transform-origin: 50% 50%;
+			height: 300px;
+			/*box-shadow: 0 0 5px #000000;*/
+			
 		}
-		.animation {
-			-webkit-animation-duration: 1s;
-			-webkit-animation-delay: .2s;
-			-webkit-animation-timing-function: ease;
-			-webkit-animation-fill-mode: both;
-			-moz-animation-duration: 1s;
-			-moz-animation-delay: .2s;
-			-moz-animation-timing-function: ease;
-			-moz-animation-fill-mode: both;
+		a.aaa{
+			background-color: orange;
+			width:260px;
+			height: 50px;
+			border-radius: 10px;
+			color:white;
+			font-size: 26px;
+			font-weight: 700;
+			display: inline-block;
+			text-decoration: none;
+			border:1px solid #ededed;
 		}
 	</style>
 </head>
 <body>
+<div style="height:330px;">
 	<div class="bb">
 		<div class="con" id='xxx'>
-			<p>￥车费50元</p>
-			<p>微信价40元</p>
+			<p style="font-size:34px;font-weight: bold;color:#929292;text-align:center;vertical-align: middle;">车费 ￥50 元</p>
+			<p style="font-size:24px;font-weight: bold;color:#ff8914;text-align:center;vertical-align: middle;">微信价 ￥40 元</p>
+			<a href="#" class="aaa">确认支付</a>
 		</div>
+		<div class="xx" id="aaaa" style="display:none"></div>
 	</div>
+	<a href="#" style="background-color:#fff;color:orange;margin:20px; position:relative; top:300px;" id="a_xx">我已现金支付</a>
+</div>
+
+	
+
 	
 	 <script type="text/javascript">
 	 window.onload = function(){
 	 	var xxx = document.getElementById("xxx");
-	 	xxx.style.display = "inline-block";
+	 	document.getElementById("aaaa").style.display = "block";
+	 	xxx.className = "con run";
+	 	var a_xx = document.getElementById("a_xx");
+	 	a_xx.style.display = "none";
+	 	setTimeout(function(){
+	 		// a_xx.style.display = "inline-block";
+	 		a_xx.className = "aaa";
+	 		a_xx.style.display = "inline-block";
+	 	},3000);
 	 };
 	 </script>
 </body>

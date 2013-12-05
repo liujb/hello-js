@@ -5,8 +5,8 @@
 	<title>变形</title>
 	<style>
 	.translate_1{
-	    -webkit-transition:4s ease all;
-	    -moz-transition:1s ease all;
+	    -webkit-transition:all 1s ease-out;
+	    -moz-transition:all 4s ease-out;
 	    position:absolute;
 	    left:250px;
 	    top:10px;
@@ -14,29 +14,16 @@
 	    background:#4d6ea6;
 
 	}
-	.translate_2{
-	    -webkit-transform:translateY(100px);
+	.translate_1:hover{
+	    /*-webkit-transform:translateY(100px) rotate(360deg) ;*/
+	    -webkit-transform:rotate(360deg) translateY(100px);
 	    -moz-transform:translate(100px);
-	}
-	select{
-		border: 2px solid rgb(237, 237, 237);
-		width: 128px;
-		height: 36px;
-		line-height: 18px;
-		/*padding-top: 10px;*/
-		vertical-align: middle;
 	}
 	</style>
 </head>
 <body>
 	<div class="demo_box translate_1">鼠标经过向右移动100像素</div>
 
-	<select name="" id="">
-		<option value="">AAAA</option>
-		<option value="">BBBB</option>
-		<option value="">CCCC</option>
-		<option value="">DDD</option>
-	</select>
 	<script type="text/javascript">
 	window.onload = function(){
 
